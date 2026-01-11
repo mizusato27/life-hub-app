@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # --- Backend (Go + Air) ---
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: lifehub-backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend:/app
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=lifehub_db
+      - POSTGRES_HOST=db
+    depends_on:
+      - db
+
+  # --- Database (PostgreSQL) ---
+  db:
+    image: postgres:15-alpine
+    container_name: lifehub-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=lifehub_db
+    volumes:
+      # ホスト側のフォルダをコンテナにマウント（データ永続化）
+      - ./postgres-data:/var/lib/postgresql/data
+
+  # --- DB管理ツール (Adminer) ---
+  adminer:
+    image: adminer
+    container_name: lifehub-adminer
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db

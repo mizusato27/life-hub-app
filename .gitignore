@@ -1,0 +1,22 @@
+# --- 全体共通 ---
+.DS_Store
+.env
+.vscode/
+.idea/
+
+# --- Docker ---
+postgres-data/
+
+# --- Backend (Go) ---
+backend/main
+backend/lifehub-server
+# Air (ホットリロード) の一時ファイル
+backend/tmp/
+
+# --- Frontend (Next.js) ---
+frontend/node_modules/
+# ビルド成果物
+frontend/.next/
+frontend/out/
+# 環境変数
+frontend/.env.local
