@@ -1,6 +1,24 @@
 version: '3.8'
 
 services:
+# --- Frontend (Next.js) ---
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: lifehub-frontend
+    # ホストの3000番をコンテナの3000番に繋ぐ
+    ports:
+      - "3000:3000"
+    # ホットリロード設定 (これがないと編集しても画面が変わらない)
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules # コンテナ内のライブラリを守るための記述
+    environment:
+      - WATCHPACK_POLLING=true # Macでのホットリロードを安定させるおまじない
+    depends_on:
+      - backend
+
   # --- Backend (Go + Air) ---
   backend:
     build:
