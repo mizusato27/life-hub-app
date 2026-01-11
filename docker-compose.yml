@@ -32,12 +32,3 @@ services:
     volumes:
       # ホスト側のフォルダをコンテナにマウント（データ永続化）
       - ./postgres-data:/var/lib/postgresql/data
-
-  # --- DB管理ツール (Adminer) ---
-  adminer:
-    image: adminer
-    container_name: lifehub-adminer
-    ports:
-      - "8081:8080"
-    depends_on:
-      - db
